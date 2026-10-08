@@ -188,3 +188,21 @@ def test_silent_segments_dropped():
             {"start": 3.0, "end": 5.0, "text": "We decided to ship."},
             {"start": 8.0, "end": 10.0, "text": "Okay."}]
     assert [s["text"] for s in drop_silent(segs, x)] == ["We decided to ship.", "Okay."]
+
+
+def test_delete_blocked_while_processing(cfg):
+    import threading
+    app = create_app(cfg, token="")
+    c = TestClient(app)
+    engine = app.state.engine
+    mid = engine.db.create_meeting("Busy")["id"]
+    gate = threading.Event()
+    job = engine.jobs.submit("process", mid, lambda p: gate.wait(5))   # stands in for a long transcription
+    r = c.delete(f"/meetings/{mid}")
+    assert r.status_code == 409 and "still being processed" in r.json()["detail"]
+    gate.set()
+    for _ in range(100):
+        if engine.jobs.get(job["id"])["status"] == "done":
+            break
+        time.sleep(0.02)
+    assert c.delete(f"/meetings/{mid}").status_code == 200

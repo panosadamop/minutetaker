@@ -248,6 +248,9 @@ def create_app(cfg: Optional[Config] = None, token: Optional[str] = None) -> Fas
     @app.delete("/meetings/{mid}", dependencies=D)
     def delete_meeting(mid: str):
         meeting_or_404(mid)
+        if any(j["status"] in ("queued", "running") for j in engine.jobs.for_meeting(mid)):
+            # deleting removes the audio files the running job is reading
+            raise HTTPException(409, "This meeting is still being processed — wait for it to finish, then delete it")
         engine.delete(mid)
         return {"deleted": mid}
 

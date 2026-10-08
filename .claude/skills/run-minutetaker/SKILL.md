@@ -80,11 +80,17 @@ PYTHONIOENCODING=utf-8 ../.venv/Scripts/minutetaker --data "$TEMP/minutetaker-cl
 `process -` reads transcript/chat text from stdin. Tests use mock STT/LLM — they do **not** exercise real
 Whisper; use the driver (default `MT_STT=local`) for that.
 
-## Run (human path — not run during verification)
+## Run (human path — the user's own window and real library)
 
-`cd desktop && npm start` — opens the window using system `python` unless `MINUTETAKER_PYTHON` points at
-`.venv`; writes to the real library in `%APPDATA%\MinuteTaker`. Default LLM is Claude, which needs an API key
-in Settings (none on the machine this was verified on — hence `MT_LLM=mock` in the driver).
+```bash
+(cd desktop && npx vite build)
+cd desktop && MINUTETAKER_PYTHON="$PWD/../.venv/Scripts/python.exe" PYTHONIOENCODING=utf-8 npm start   # run in background
+```
+
+Ready when the output shows `[engine] {"event": "ready", "port": N}`; `curl http://127.0.0.1:N/health` → `data_dir`
+is the real library `%APPDATA%\MinuteTaker`. Without `MINUTETAKER_PYTHON` the engine uses system `python`.
+Default LLM is Claude: minutes need an API key in Settings (or provider *Demo (heuristic)*).
+That folder is also Electron's own userData (Cache, GPUCache, Local Storage …) — same product name.
 
 ## Gotchas
 
