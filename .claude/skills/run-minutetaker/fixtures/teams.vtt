@@ -1,0 +1,13 @@
+WEBVTT
+
+6c4f3c2a-1d2e-4b5f-9a8b-0c1d2e3f4a5b/12-0
+00:00:03.140 --> 00:00:07.230
+<v Panos Adamopoulos>Good morning, let's review the migration status.</v>
+
+6c4f3c2a-1d2e-4b5f-9a8b-0c1d2e3f4a5b/13-0
+00:00:08.000 --> 00:00:12.500
+<v Maria K>There is a risk with the reports module.</v>
+
+6c4f3c2a-1d2e-4b5f-9a8b-0c1d2e3f4a5b/14-0
+00:00:13.000 --> 00:00:16.000
+<v Panos Adamopoulos>We decided to go live on the 20th of October. Maria will prepare the rollback plan by Friday.</v>

@@ -1,0 +1,37 @@
+# --- Node / Electron (desktop/) -------------------------------------------
+# electron.exe alone is ~172 MB, over GitHub's 100 MB limit: never commit node_modules
+node_modules/
+# vite build output (npm run build) — rebuilt from desktop/src
+desktop/dist/
+desktop/release/
+# PyInstaller engine bundle (npm run engine:bundle)
+desktop/engine-dist/
+npm-debug.log*
+
+# --- Python (engine/) -------------------------------------------------------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+engine/dist/
+
+# --- Local data & secrets -----------------------------------------------------
+# The app keeps meetings, audio and keys in %APPDATA%\MinuteTaker (or MINUTETAKER_DATA),
+# never in the repo; these guard against a data dir pointed inside it.
+.env
+.env.*
+.secrets.json
+*.db
+*.db-wal
+*.db-shm
+models/
+
+# --- Editors / OS ---------------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+.DS_Store

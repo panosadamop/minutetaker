@@ -1,0 +1,7 @@
+# Text files are stored with LF; checkouts follow the platform. Binaries are never touched.
+* text=auto eol=lf
+*.wav binary
+*.opus binary
+*.zip binary
+*.docx binary
+*.png binary
